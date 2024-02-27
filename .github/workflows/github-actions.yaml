@@ -1,0 +1,40 @@
+name: HSA25 Actions
+run-name: ${{ github.actor }} is building Lambda function
+on: [push]
+env:
+  AWS_REGION: 'eu-central-1'
+permissions:
+  contents: read
+jobs:
+  deploy:
+    name: Deploy
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [18.x]
+    environment: production
+    steps:
+      - run: echo "🎉 The job was triggered by a ${{ github.event_name }} event."
+      - name: Check out repository code
+        uses: actions/checkout@v4
+      - run: echo "💡 The ${{ github.repository }} repository has been cloned to the runner."
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ env.AWS_REGION }}        
+      - run: echo "AWS credentials obtained"
+
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
+      - run: npm ci
+
+      - name: Install Plugin and Deploy
+        uses: serverless/github-action@v3.2
+        with:
+          args: -c "serverless plugin install --name <plugin-name> && serverless deploy"
+          entrypoint: /bin/sh
