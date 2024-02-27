@@ -1,5 +1,5 @@
 {
-  "name": "HSA29",
+  "name": "HSA25",
   "version": "1.0.0",
   "dependencies": {
     "serverless": "^3.38.0"

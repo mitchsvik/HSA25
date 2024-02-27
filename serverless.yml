@@ -1,4 +1,4 @@
-service: HSA29
+service: HSA25
 
 frameworkVersion: '3'
 
@@ -24,7 +24,7 @@ resources:
     BaseLambdaExecutionRole:
       Type: "AWS::IAM::Role"
       Properties:
-        RoleName: hsa29-lambdaRole
+        RoleName: hsa25-lambdaRole
         AssumeRolePolicyDocument:
           Version: "2012-10-17"
           Statement:
@@ -35,7 +35,7 @@ resources:
               Action:
                 - "sts:AssumeRole"
         Policies:
-          - PolicyName: hsa29-lambda
+          - PolicyName: hsa25-lambda
             PolicyDocument:
               Version: "2012-10-17"
               Statement:
